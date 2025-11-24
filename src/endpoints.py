@@ -4,6 +4,9 @@ from urllib.parse import urljoin
 
 BASE_URL = 'https://api-ss-sandbox.betprophet.co' 
 
+
+
+
 def get_sporting_events(game_id: int,access_token: str):
 
     ENDPOINT = '/partner/mm/get_sport_events'
@@ -26,6 +29,10 @@ def get_sporting_events(game_id: int,access_token: str):
     else:
         print(f'Failed: Status Code {response.status_code}')
         print(response.text)
+        return None 
+
+
+
 
 def auth_refresh(refresh_token: str):
     

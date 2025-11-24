@@ -20,22 +20,31 @@ if __name__ == '__main__':
     access_token = mm_instance.mm_session["access_token"]
     refresh_token = mm_instance.mm_session["refresh_token"]
 
-    '''
-    sporting_events = get_sporting_events(NBA_ID, access_token)
+
+# ... inside your script ...
+
+    refresh_response = auth_refresh(refresh_token)
+
+    if refresh_response:
+        new_access_token = refresh_response["data"]["access_token"]
+        new_expire_time = refresh_response["data"]["access_expire_time"]
+        
+        # 1. Update your instance/session with the new token and time
+        mm_instance.mm_session["access_token"] = new_access_token 
+        mm_instance.mm_session["access_expire_time"] = new_expire_time
+
+       
+        print("Access token refreshed!")
+
+    # get all nba games 
+    sporting_events = get_sporting_events(NBA_ID, new_access_token)
 
     if sporting_events:
         
         print(json.dumps(sporting_events, indent = 4))  
     else:
         logging.error("Failed to fetch sporting events")
-    '''
+
+    print(new_access_token)
+
     
-    
-
-    refresh_response = auth_refresh(refresh_token)
-
-    if refresh_response:
-        access_token = refresh_response["data"]["access_token"]
-        print("Access token refreshed!")
-
-    print(mm_instance.mm_session["access_token"])
